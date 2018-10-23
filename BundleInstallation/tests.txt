@@ -1,0 +1,10 @@
+{
+"tests" : [
+	{"sample_BGP_stats_traffic": ""},
+	{"sample_IPv4_traffic": ""},
+	{"sample_IPv6_stats_traffic": ""},
+	{"sample_OSPFv2_stats_traffic": ""},
+	{"sample_REST_ospf": ""},
+	{"sample_REST_QuickTest_Load_ixncfg": ""}
+]
+}

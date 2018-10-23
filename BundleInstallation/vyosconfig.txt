@@ -1,0 +1,118 @@
+interfaces {
+     ethernet eth0 {
+        address dhcp
+        duplex auto
+        smp_affinity auto
+        speed auto
+    }
+    ethernet eth1 {
+        address 22.1.1.1/24
+        address 2001:0:0:1:0:0:0:1/64
+        duplex auto
+        ip {
+        }
+        ipv6 {
+            ospfv3 {
+                ifmtu 1500
+                instance-id 22
+            }
+        }
+        smp_affinity auto
+        speed auto
+    }
+    ethernet eth2 {
+        address 23.1.1.1/24
+        address 2002:0:0:1:0:0:0:1/64
+        duplex auto
+        ipv6 {
+            ospfv3 {
+                ifmtu 1500
+                instance-id 22
+            }
+        }
+    }
+    loopback lo {
+        address 100.100.100.100/32
+    }
+}
+protocols {
+    bgp 101 {
+        neighbor 22.1.1.2 {
+            remote-as 100
+            update-source 100.100.100.100
+        }
+        neighbor 23.1.1.2 {
+            remote-as 100
+            update-source 100.100.100.100
+        }
+    }
+    ospf {
+        area 0 {
+            network 22.1.1.0/24
+            network 23.1.1.0/24
+        }
+    }
+    ospfv3 {
+    }
+}
+service {
+    snmp {
+        community public {
+            authorization ro
+        }
+    }
+    ssh {
+        port 22
+    }
+}
+system {
+    config-management {
+        commit-revisions 100
+    }
+    console {
+    }
+    host-name vyos
+    login {
+        user vyos {
+            authentication {
+                encrypted-password $1$gU100Pg/$xQUpNRtppcSQuD6bKQkGI1
+                plaintext-password ""
+            }
+            level admin
+        }
+    }
+    ntp {
+        server 0.pool.ntp.org {
+        }
+        server 1.pool.ntp.org {
+        }
+        server 2.pool.ntp.org {
+        }
+    }
+    package {
+        auto-sync 1
+        repository community {
+            components main
+            distribution helium
+            password ""
+            url http://packages.vyos.net/vyos
+            username ""
+        }
+    }
+    syslog {
+        global {
+            facility all {
+                level notice
+            }
+            facility protocols {
+                level debug
+            }
+        }
+    }
+    time-zone UTC
+}
+
+
+/* Warning: Do not remove the following line. */
+/* === vyatta-config-version: "cluster@1:config-management@1:conntrack-sync@1:conntrack@1:cron@1:dhcp-relay@1:dhcp-server@4:firewall@5:ipsec@4:nat@4:qos@1:quagga@2:system@6:vrrp@1:wanloadbalance@3:webgui@1:webproxy@1:zone-policy@1" === */
+/* Release version: VyOS 1.1.8 */
